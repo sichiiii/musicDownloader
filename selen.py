@@ -2,7 +2,7 @@ from selenium import webdriver
 from time import sleep
 import json, wget
 
-url = 'https://bananastreet.ru/86012-papa-tin-bananaday-114'
+url = 'https://bananastreet.ru/86012-papa-tin-bananaday-114'   #insert link to playlist
 
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
