@@ -33,10 +33,12 @@ def getMusic(url):
     source = json.loads(source)
     wget.download(source['downloadUrl'])
     
-print("Authentication... ")
-auth()
-
-url = input("Please enter url: ")
-print('Downloading... ')
-getMusic(url)
-print('\nSuccess! ')
+try:
+    print("Authentication... ")
+    auth()
+    url = input("Please enter url: ")
+    print('Downloading... ')
+    getMusic(url)
+    print('\nSuccess! ')
+except Exception as ex:
+    print(str(ex))
