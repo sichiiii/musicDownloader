@@ -1,17 +1,20 @@
 from selenium import webdriver
 from time import sleep
-import json, wget
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+import json, wget, sys
 
-url = 'https://bananastreet.ru/86012-papa-tin-bananaday-114'   #insert link to playlist
+#example: https://bananastreet.ru/86012-papa-tin-bananaday-114
 
+s=Service(ChromeDriverManager().install())
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
-options.add_argument('window-size=1920x935')
-driver = webdriver.Chrome('/home/jabka/Downloads/chromedriver', chrome_options=options)
+driver = webdriver.Chrome(options=options, service=s)
 
 def auth():
     driver.get('https://bananastreet.ru/')
-    driver.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div[1]/div[2]/div/div').click()
+    sleep(1)
+    driver.find_element_by_xpath('/html/body/div[1]/div[1]/div[3]/div[1]/div[2]/div/div').click()
     driver.find_element_by_xpath('/html/body/div[1]/div[3]/div/div/div[2]/div[2]/div[1]').click()
     login = driver.find_element_by_xpath('/html/body/div[1]/div[3]/div/div/form/div/div[2]/div[1]/div[2]/input')
     password = driver.find_element_by_xpath('/html/body/div[1]/div[3]/div/div/form/div/div[2]/div[2]/div[2]/input')
@@ -28,9 +31,12 @@ def getMusic(url):
     content = driver.find_element_by_tag_name('pre').text
     source = content.replace("\\u0026", "&")
     source = json.loads(source)
-    #source = '\u0026'
-    print(source['downloadUrl'])
     wget.download(source['downloadUrl'])
-
+    
+print("Authentication... ")
 auth()
+
+url = input("Please enter url: ")
+print('Downloading... ')
 getMusic(url)
+print('\nSuccess! ')
